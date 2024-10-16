@@ -1,0 +1,491 @@
+html, body {
+    overflow: hidden;
+    margin: 0;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background-size: cover;
+    text-align: center;
+    font-family: 'VT323', monospace;
+    user-select: none;
+}
+
+/* Container for user information */
+.user-info {
+    text-align: center; /* Center the username and badges */
+    margin-top: 10px;
+}
+
+/* Container for badges */
+.badges {
+    display: inline-flex;
+    gap: 12px; /* Space between badges */
+    padding: 10px 12px; /* Subtle padding around the group */
+    border-radius: 50px; /* Fully rounded container for a smooth effect */
+    background: rgba(255, 255, 255, 0.1); /* Very light background for a soft box effect */
+    backdrop-filter: blur(10px); /* Optional: adds blur for a frosted glass effect */
+}
+
+/* General badge styling */
+.badge {
+    filter: drop-shadow(rgb(255, 255, 255) 0px 0px 1.5px);
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.badge:hover {
+    transform: scale(1.1);
+}
+
+.badge.developer {
+    background: url(../../cd/dev.svg);
+}
+
+.badge.verified {
+    background: url(../../cd/verified.svg);
+}
+
+.badge.premium {
+    background: url(../../cd/prem.svg);
+}
+
+.badge.diamond {
+    background: url(../../cd/diamond.svg);
+}
+
+.badge.legend {
+    background: url(../../cd/legend.svg);
+}
+
+.badge.staff {
+    background: url(../../cd/staff.svg);
+}
+
+.audio-controls-container {
+    position: fixed;
+    top: 10px;
+    left: 10px; /* Positioned top-left */
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space elements evenly */
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.2);
+    width: 150px; /* Adjust width to suit the layout */
+}
+
+/* General button styling for icons */
+.audio-controls-container button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Specific styling for the larger play/pause button */
+.play-button {
+    font-size: 2rem;
+}
+
+/* Ensure the play button is centered */
+.audio-controls-container {
+    gap: 5px; /* Add gap between buttons */
+}
+
+
+/* Tooltip styling */
+.badge::after {
+    content: attr(data);
+    position: absolute;
+    bottom: 100%; /* Position above the badge */
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    visibility: hidden;
+}
+
+/* Show tooltip on hover */
+.badge:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    object-fit: cover;
+    min-height: 100%;
+    z-index: -1;
+}
+
+.overlay {
+    padding-top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.overlay .account-container {
+    position: fixed;
+    overflow: hidden;
+    width: 85vw;
+    max-width: 600px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid #444;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    height: 60vh; /* Maintain auto height to adjust to content size */
+}
+
+
+.glitch {
+    font-weight: bold;
+    font-size: 12vw; 
+    color: #ffffff; 
+    text-shadow: 0.05em 0 0 rgba(176, 176, 176, 0.3), -0.03em -0.04em 0 rgba(176, 176, 176, 0.3), 0.025em 0.04em 0 rgba(176, 176, 176, 0.3);
+    animation: glitch 725ms infinite;
+    user-select: none;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.glitch span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.75;
+}
+
+.glitch span:first-child {
+    animation: glitch 700ms infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+    transform: translate(-0.04em, -0.03em);
+}
+
+.glitch span:last-child {
+    animation: glitch 575ms infinite;
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+    transform: translate(0.04em, 0.03em);
+}
+
+@keyframes glitch {
+    0%, 15% {
+        text-shadow: 0.05em 0 0 rgba(176, 176, 176, 0.3), -0.03em -0.04em 0 rgba(176, 176, 176, 0.3), 0.025em 0.04em 0 rgba(176, 176, 176, 0.3);
+    }
+    16%, 49% {
+        text-shadow: -0.05em -0.025em 0 rgba(176, 176, 176, 0.3), 0.025em 0.035em 0 rgba(176, 176, 176, 0.3), -0.05em -0.05em 0 rgba(176, 176, 176, 0.3);
+    }
+    50%, 99% {
+        text-shadow: 0.05em 0.035em 0 rgba(176, 176, 176, 0.3), 0.03em 0 0 rgba(176, 176, 176, 0.3), 0 -0.04em 0 rgba(176, 176, 176, 0.3);
+    }
+    100% {
+        text-shadow: -0.05em 0 0 rgba(176, 176, 176, 0.3), -0.025em -0.04em 0 rgba(176, 176, 176, 0.3), -0.04em -0.025em 0 rgba(176, 176, 176, 0.3);
+    }
+}
+
+.header {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: left;
+    color: white;
+    border-bottom: 2px solid white;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align the items at the top */
+    flex-wrap: wrap; /* Allow elements to wrap onto a new line */
+}
+
+
+footer {
+    font-family: "Rubik", sans-serif !important;
+    color: #888;
+    font-size: .70pc;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    padding: .625pc;
+    animation: fadeIn .5s ease-in-out;
+    user-select: none;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #777;
+    margin: 15px 0;
+  }
+  
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #444;
+    margin: 0 10px;
+  }
+
+.register-text {
+    color: #34aeff !important;
+    font-size: 17px !important;
+}
+
+.reg-text {
+    color: #fff;
+    font-size: 15px !important;
+}
+
+.created-info {
+    font-size: calc(0.9rem + 3px);
+    color: #aaa;
+    margin-left: auto; /* Pushes .created-info to the far right */
+    align-self: flex-end; /* Align it to the bottom of the header */
+}
+
+@media (max-width: 768px) {
+    .glitch {
+        font-size: 20vw;
+    }
+
+    .header {
+        font-size: calc(1.5rem + 3px); /* Increased font size by 3px */
+    }
+    
+    .overlay .account-container .username {
+        font-size: 20px;
+    }
+
+    .overlay {
+        padding-top: 58px;
+    }
+
+    .username {
+        font-size: calc(0.9rem + 3px); /* Increased font size by 3px */
+    }
+
+    footer {
+        font-size: .70pc;
+    }
+    
+}
+
+#error-popup {
+    font-family: Arial, Helvetica, sans-serif;
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #ff1100; /* Red background for errors */
+    color: white;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    right: 30px;
+    bottom: 30px;
+    font-size: 17px;
+    transition: opacity 0.5s linear, visibility 0s 0.5s;
+    opacity: 0;
+}
+
+#error-popup.show {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.5s linear;
+}
+
+#discord-popup {
+    font-family: Arial, Helvetica, sans-serif;
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #ff1100; /* Red background for errors */
+    color: white;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    right: 30px;
+    bottom: 30px;
+    font-size: 17px;
+    transition: opacity 0.5s linear, visibility 0s 0.5s;
+    opacity: 0;
+}
+
+#discord-popup.show {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.5s linear;
+}
+
+#success-popup {
+    font-family: Arial, Helvetica, sans-serif;
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #009c08; /* Red background for success */
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    right: 30px;
+    bottom: 30px;
+    font-size: 17px;
+    transition: opacity 0.5s linear, visibility 0s 0.5s;
+    opacity: 0;
+}
+
+#success-popup.show {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.5s linear;
+}
+
+.container {
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin: 0 auto;
+    z-index: 0;
+}
+
+.container h2 {
+    color: #d3d3d3;
+    margin-top: -10px; /* Adjusted margin to move "Login" text up */
+    margin-left: -10px; /* Adjusted margin for alignment */
+}
+
+.container img {
+    margin-left: -10px; /* Adjusted margin for alignment */
+}
+
+.login-box {
+    background-color: #181818; /* Darker background color */
+    color: #eee;
+    padding: 40px; /* Increased padding */
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgb(255, 255, 255); /* Darker outline */
+    width: 250px; /* Increased width */
+    max-width: 80%; /* Adjusted maximum width */
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+button {
+    width: 90%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #222; /* Darker background color */
+    color: #eee;
+    font-size: 16px;
+}
+
+.discord-button {
+    width: 90%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #222; /* Darker background color */
+    color: #eee;
+    font-size: 16px;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    outline: none;
+    transition: box-shadow 0.2s ease-in-out; /* Add transition for the box-shadow */
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus {
+    box-shadow: 0px 0px 10px rgb(255, 255, 255); /* Darker outline */
+}
+
+
+button {
+    width: 50%;
+    padding: 8px;
+    color: #fff;
+    margin-left: 25%;
+    display: block;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+    background-color: #34aeff; /* Lighter background color on hover */
+}
+
+.login-box p {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-box p a {
+    color: rgb(255, 255, 255);
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+@media (max-width: 480px) {
+    .login-box {
+        width: 65%;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    form button {
+        font-size: 14px;
+    }
+}

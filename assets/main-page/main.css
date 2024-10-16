@@ -1,0 +1,442 @@
+html, body {
+    overflow: hidden;
+    margin: 0;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background-size: cover;
+    text-align: center;
+    font-family: 'VT323', monospace;
+    user-select: none;
+}
+
+/* Container for user information */
+.user-info {
+    text-align: center; /* Center the username and badges */
+    margin-top: 10px;
+}
+
+/* Container for badges */
+.badges {
+    display: inline-flex;
+    gap: 12px; /* Space between badges */
+    padding: 10px 12px; /* Subtle padding around the group */
+    border-radius: 50px; /* Fully rounded container for a smooth effect */
+    background: rgba(255, 255, 255, 0.1); /* Very light background for a soft box effect */
+    backdrop-filter: blur(10px); /* Optional: adds blur for a frosted glass effect */
+}
+
+/* General badge styling */
+.badge {
+    filter: drop-shadow(rgb(255, 255, 255) 0px 0px 1.5px);
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.badge:hover {
+    transform: scale(1.1);
+}
+
+.badge.developer {
+    background: url(../../cd/dev.svg);
+}
+
+.badge.verified {
+    background: url(../../cd/verified.svg);
+}
+
+.badge.premium {
+    background: url(../../cd/prem.svg);
+}
+
+.badge.diamond {
+    background: url(../../cd/diamond.svg);
+}
+
+.badge.legend {
+    background: url(../../cd/legend.svg);
+}
+
+.badge.staff {
+    background: url(../../cd/staff.svg);
+}
+
+.audio-controls-container {
+    position: fixed;
+    top: 10px;
+    left: 10px; /* Positioned top-left */
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space elements evenly */
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.2);
+    width: 150px; /* Adjust width to suit the layout */
+}
+
+/* General button styling for icons */
+.audio-controls-container button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Specific styling for the larger play/pause button */
+.play-button {
+    font-size: 2rem;
+}
+
+/* Ensure the play button is centered */
+.audio-controls-container {
+    gap: 5px; /* Add gap between buttons */
+}
+
+
+/* Tooltip styling */
+.badge::after {
+    content: attr(data);
+    position: absolute;
+    bottom: 100%; /* Position above the badge */
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    visibility: hidden;
+}
+
+/* Show tooltip on hover */
+.badge:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    object-fit: cover;
+    min-height: 100%;
+    z-index: -1;
+}
+
+.overlay {
+    padding-top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.overlay .account-container {
+    position: fixed;
+    overflow: hidden;
+    width: 85vw;
+    max-width: 600px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid #444;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    height: 60vh; /* Maintain auto height to adjust to content size */
+}
+
+
+.glitch {
+    font-weight: bold;
+    font-size: 12vw; 
+    color: #ffffff; 
+    text-shadow: 0.05em 0 0 rgba(176, 176, 176, 0.3), -0.03em -0.04em 0 rgba(176, 176, 176, 0.3), 0.025em 0.04em 0 rgba(176, 176, 176, 0.3);
+    animation: glitch 725ms infinite;
+    user-select: none;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.glitch span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.75;
+}
+
+.glitch span:first-child {
+    animation: glitch 700ms infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+    transform: translate(-0.04em, -0.03em);
+}
+
+.glitch span:last-child {
+    animation: glitch 575ms infinite;
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+    transform: translate(0.04em, 0.03em);
+}
+
+.header1 {
+    gap: 20px;
+    position: fixed; /* Fixed positioning */
+    top: 20px; /* Distance from the top */
+    right: 40px; /* Distance from the right */
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    justify-content: space-between;
+}
+
+.header1 h1 {
+    margin: 0;
+}
+
+.header1 a {
+    text-decoration: none; /* Remove underline */
+    color: #eee; /* Text color */
+    font-size: 20px; /* Adjust font size as needed */
+    position: relative; /* Needed for pseudo-element positioning */
+    padding: 5px 0; /* Padding to ensure there's space for the underline */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.header1 a::before {
+    content: ''; /* Required for pseudo-element */
+    position: absolute; /* Position it absolutely within the link */
+    left: 0; /* Start from the left edge */
+    bottom: 0; /* Align with the bottom */
+    width: 0; /* Initially hidden */
+    height: 2px; /* Thickness of the underline */
+    background-color: #fff; /* Color of the underline */
+    transition: width 0.3s ease; /* Smooth transition for the underline */
+}
+
+.header1 a:hover::before {
+    width: 100%; /* Expand to full width on hover */
+}
+
+.header1 a:hover {
+    color: #eee; /* Color change on hover to make it shine */
+}
+
+@keyframes glitch {
+    0%, 15% {
+        text-shadow: 0.05em 0 0 rgba(176, 176, 176, 0.3), -0.03em -0.04em 0 rgba(176, 176, 176, 0.3), 0.025em 0.04em 0 rgba(176, 176, 176, 0.3);
+    }
+    16%, 49% {
+        text-shadow: -0.05em -0.025em 0 rgba(176, 176, 176, 0.3), 0.025em 0.035em 0 rgba(176, 176, 176, 0.3), -0.05em -0.05em 0 rgba(176, 176, 176, 0.3);
+    }
+    50%, 99% {
+        text-shadow: 0.05em 0.035em 0 rgba(176, 176, 176, 0.3), 0.03em 0 0 rgba(176, 176, 176, 0.3), 0 -0.04em 0 rgba(176, 176, 176, 0.3);
+    }
+    100% {
+        text-shadow: -0.05em 0 0 rgba(176, 176, 176, 0.3), -0.025em -0.04em 0 rgba(176, 176, 176, 0.3), -0.04em -0.025em 0 rgba(176, 176, 176, 0.3);
+    }
+}
+
+.header {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: left;
+    color: white;
+    border-bottom: 2px solid white;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align the items at the top */
+    flex-wrap: wrap; /* Allow elements to wrap onto a new line */
+}
+
+.scrollable-content {
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    flex-grow: 1; /* Allow the scrollable content to take up the remaining space */
+    padding-right: 5px; /* Add some padding to prevent content from being hidden behind the scrollbar */
+}
+
+.scrollable-content::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollable-content {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.overlay .account-container .account-entry {    
+    padding: 10px 0;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px; /* Ensure each account entry has a fixed height */
+}
+
+.overlay .account-container .account-entry:last-child {
+    border-bottom: none;
+}
+
+.username {
+    text-decoration: none;
+    background: none;
+    padding: 5px;
+    border-radius: 5px;
+    display: inline-block;
+    color: white; /* White color for the usernames */
+    font-size: calc(1rem + 3px); /* Increased font size by 3px */
+}
+
+.role {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.created-on {
+    font-size: calc(0.9rem + 3px); /* Increased font size by 3px */
+    color: #999;
+}
+
+footer {
+    font-family: "Rubik", sans-serif !important;
+    color: #888;
+    font-size: .70pc;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    padding: .625pc;
+    animation: fadeIn .5s ease-in-out;
+    user-select: none;
+}
+
+.discord-info {
+    display: block;
+    user-select: text;
+    font-size: calc(0.9rem + 3px);
+    color: #aaa;
+    flex-basis: 100%; /* Make .discord-info take the full width */
+}
+
+.created-info {
+    font-size: calc(0.9rem + 3px);
+    color: #aaa;
+    margin-left: auto; /* Pushes .created-info to the far right */
+    align-self: flex-end; /* Align it to the bottom of the header */
+}
+
+.menu-button {
+    display: none;
+    background: none;
+    border: none;
+    color: #eee;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+/* Menu styles */
+.menu {
+    display: flex;
+    gap: 20px;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.menu h1 {
+    margin: 0;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #eee;
+    font-size: 20px;
+}
+
+@media (max-width: 768px) {
+    .menu-button {
+        display: block;
+        margin-right: -30px;
+        font-size: 31px;
+    }
+    .menu {
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        display: flex;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        background: #181818;
+        padding: 10px;
+        border-radius: 5px;
+        flex-direction: column;
+        gap: 10px;
+        opacity: 0; /* Initially hidden */
+        transform: translateY(-20px); /* Initially off-screen */
+        visibility: hidden; /* Hide the menu */
+    }
+
+    .menu.open {
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        opacity: 1; /* Visible when open */
+        transform: translateY(0); /* Move into view */
+        visibility: visible; /* Show the menu */
+    }
+
+    .menu h1 a {
+        font-size: 18px;
+    }
+
+    .glitch {
+        font-size: 32vw;
+    }
+
+    .header {
+        font-size: calc(1.5rem + 3px); /* Increased font size by 3px */
+    }
+    
+    .overlay .account-container .username {
+        font-size: 20px;
+    }
+
+    .overlay {
+        padding-top: 58px;
+    }
+
+    .username {
+        font-size: calc(0.9rem + 3px); /* Increased font size by 3px */
+    }
+
+    footer {
+        font-size: .70pc;
+    }
+}
